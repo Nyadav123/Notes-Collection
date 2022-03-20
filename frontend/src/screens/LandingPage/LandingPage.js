@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import "./LandingStyles.css";
+import "./LandingPage.css";
 
 function LandingPage({ history }) {
   const userLogin = useSelector((state) => state.userLogin);
@@ -10,9 +10,19 @@ function LandingPage({ history }) {
 
   useEffect(() => {
     if (userInfo) {
-      history.push("/mynotes");
+      history.push("/");
     }
   }, [history, userInfo]);
+
+  const [setHover] = useState();
+  const handleMouseIn = (e) => {
+    e.target.style.background = "transparent";
+    setHover(true);
+  };
+  const handleMouseOut = (e) => {
+    e.target.style.background = "rgb(245, 245, 236)";
+    setHover(false);
+  };
 
   return (
     <div className="main">
@@ -20,13 +30,17 @@ function LandingPage({ history }) {
         <Row>
           <div className="intro-text">
             <div>
-              <h1 className="title">Welcome to Note Zipper</h1>
-              <p className="subtitle">One Safe place for all your notes.</p>
+              <h1 className="title">Welcome to Notes Collection</h1>
+              <p className="subtitle">One Safe place for all your notes!</p>
             </div>
             <div className="buttonContainer">
               <Link to="/login">
-                <Button size="lg" className="landingbutton">
-                  Login
+                <Button
+                  size="lg"
+                  className="landingbutton"
+                  style={{ backgroundColor: "black" }}
+                >
+                  LogIn
                 </Button>
               </Link>
               <Link to="/register">
@@ -34,8 +48,11 @@ function LandingPage({ history }) {
                   variant="outline-primary"
                   size="lg"
                   className="landingbutton"
+                  onMouseOver={handleMouseIn}
+                  onMouseOut={handleMouseOut}
+                  style={{ color: "black", border: "1px solid black" }}
                 >
-                  Signup
+                  SignIn
                 </Button>
               </Link>
             </div>

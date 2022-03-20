@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import MainScreen from "../../components/MainScreen";
-import { Button, Card, Form } from "react-bootstrap";
+import { Button, Card, Form, Accordion } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createNoteAction } from "../../actions/notesActions";
-import Loading from "../../components/Loading";
-import ErrorMessage from "../../components/ErrorMessage";
+import { createNoteAction } from "../../actions/notesAction";
+import Loading from "../../components/Header/Loading";
+import Error from "../../components/Header/Error";
 import ReactMarkdown from "react-markdown";
-
+import "./Createnote.css";
 function CreateNote({ history }) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -42,7 +43,7 @@ function CreateNote({ history }) {
         <Card.Header>Create a new Note</Card.Header>
         <Card.Body>
           <Form onSubmit={submitHandler}>
-            {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
+            {error && <Error variant="danger">{error}</Error>}
             <Form.Group controlId="title">
               <Form.Label>Title</Form.Label>
               <Form.Control
@@ -51,27 +52,8 @@ function CreateNote({ history }) {
                 placeholder="Enter the title"
                 onChange={(e) => setTitle(e.target.value)}
               />
-            </Form.Group>
-
-            <Form.Group controlId="content">
-              <Form.Label>Content</Form.Label>
-              <Form.Control
-                as="textarea"
-                value={content}
-                placeholder="Enter the content"
-                rows={4}
-                onChange={(e) => setContent(e.target.value)}
-              />
-            </Form.Group>
-            {content && (
-              <Card>
-                <Card.Header>Note Preview</Card.Header>
-                <Card.Body>
-                  <ReactMarkdown>{content}</ReactMarkdown>
-                </Card.Body>
-              </Card>
-            )}
-
+            </Form.Group>{" "}
+            <br />
             <Form.Group controlId="content">
               <Form.Label>Category</Form.Label>
               <Form.Control
@@ -81,13 +63,49 @@ function CreateNote({ history }) {
                 onChange={(e) => setCategory(e.target.value)}
               />
             </Form.Group>
+            <br />
+            <Form.Group controlId="content">
+              <Form.Label className="h">Content</Form.Label>
+              <Form.Control
+                as="textarea"
+                value={content}
+                placeholder="Enter the content"
+                rows={4}
+                onChange={(e) => setContent(e.target.value)}
+              />
+            </Form.Group>
+            {content && (
+              <Accordion>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>Note Preview</Accordion.Header>
+                  <Accordion.Body>
+                    <ReactMarkdown>{content}</ReactMarkdown>
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+            )}
+            <br />
             {loading && <Loading size={50} />}
-            <Button type="submit" variant="primary">
+            <Button
+              type="submit"
+              variant="primary"
+              className="nb"
+              style={{ backgroundColor: "black" }}
+            >
               Create Note
             </Button>
-            <Button className="mx-2" onClick={resetHandler} variant="danger">
+            <Button className="nb" onClick={resetHandler} variant="danger">
               Reset Feilds
             </Button>
+            <Link to="/mynotes">
+              <Button
+                variant="primary"
+                className="nb"
+                style={{ backgroundColor: "black" }}
+              >
+                Cancel
+              </Button>
+            </Link>
           </Form>
         </Card.Body>
 

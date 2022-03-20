@@ -1,0 +1,12 @@
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+.regs {
+  text-decoration: none;
+}
+.regs:hover {
+  text-decoration: underline;
+  color: brown;
+}
